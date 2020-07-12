@@ -56,4 +56,20 @@ class AdvertRepository extends ServiceEntityRepository
         $this->manager->remove($advert);
         $this->manager->flush();
     }
+
+    public function topAds()
+    {
+        $adverts = $this->findBy(array(), array('views' => 'DESC'));
+        $data = [];
+        $i = 1;
+        foreach ($adverts as $advert) {
+            $views = $advert->getViews();
+            $label = $advert->getLabel();
+
+            $element = $i . ' "' . $label . '" has ' . $views . ' views!';
+            $data[] = $element;
+            if (++$i == 11) break;
+        }
+        return $data;
+    }
 }
