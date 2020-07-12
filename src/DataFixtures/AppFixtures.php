@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Advert;
 use Faker\Factory;
 
@@ -18,6 +18,7 @@ class AppFixtures extends Fixture
             $advertisement = new Advert();
             $advertisement->setLabel($faker->sentence);
             $advertisement->setContent($faker->text);
+            $advertisement->setViews(rand(10, 2000));
             $manager->persist($advertisement);
         }
 
