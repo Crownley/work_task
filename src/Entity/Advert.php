@@ -30,7 +30,7 @@ class Advert
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $views;
+    private $views = 0;
 
     public function getId(): ?int
     {
@@ -71,5 +71,14 @@ class Advert
         $this->views = $views;
 
         return $this;
+    }
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'label' => $this->getLabel(),
+            'content' => $this->getContent(),
+            'email' => $this->getViews()
+        ];
     }
 }

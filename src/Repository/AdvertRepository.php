@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,37 +15,45 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AdvertRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Advert::class);
+        $this->manager = $manager;
     }
 
-    // /**
-    //  * @return Advert[] Returns an array of Advert objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function saveAdvert($label, $content)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $newAdvert = new Advert();
 
-    /*
-    public function findOneBySomeField($value): ?Advert
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $newAdvert
+            ->setLabel($label)
+            ->setContent($content);
+
+
+        $this->manager->persist($newAdvert);
+        $this->manager->flush();
     }
-    */
+
+    public function updateAdvert(Advert $advert): Advert
+    {
+        $this->manager->persist($advert);
+        $this->manager->flush();
+    
+        return $advert;
+    }
+
+    public function updateViews($advert)
+    {
+        $newViews = $advert->getViews() +1; 
+        $advert->setViews($newViews);
+        $this->manager->persist($advert);
+        $this->manager->flush();
+
+    }
+
+    public function removeAdvert(Advert $advert)
+    {
+        $this->manager->remove($advert);
+        $this->manager->flush();
+    }
 }
