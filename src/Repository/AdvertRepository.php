@@ -60,20 +60,4 @@ class AdvertRepository extends ServiceEntityRepository
         $this->manager->flush();
     }
 
-    // Function to list TOP 10 advertisements in Command (php bin/console ads-status)
-    public function topAds()
-    {
-        $adverts = $this->findBy(array(), array('views' => 'DESC'));
-        $data = [];
-        $i = 1;
-        foreach ($adverts as $advert) {
-            $views = $advert->getViews();
-            $label = $advert->getLabel();
-
-            $element = $i . ' "' . $label . '" has ' . $views . ' views!';
-            $data[] = $element;
-            if (++$i == 11) break;
-        }
-        return $data;
-    }
 }

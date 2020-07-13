@@ -21,6 +21,13 @@ class ApiTest extends TestCase
 
         $this->assertSame($response->getStatusCode(), 200);
     }
+    public function testOneAdvert()
+    {
+        $client = new Client();
+        $response = $client->request('GET', 'localhost:8000/177');
+
+        $this->assertSame($response->getStatusCode(), 200);
+    }
 
 
     public function testLogin()
