@@ -21,6 +21,7 @@ class AdvertRepository extends ServiceEntityRepository
         $this->manager = $manager;
     }
 
+    // Advertisement's creation function
     public function saveAdvert($label, $content)
     {
         $newAdvert = new Advert();
@@ -34,6 +35,7 @@ class AdvertRepository extends ServiceEntityRepository
         $this->manager->flush();
     }
 
+    // Advertisement's update function
     public function updateAdvert(Advert $advert): Advert
     {
         $this->manager->persist($advert);
@@ -42,6 +44,7 @@ class AdvertRepository extends ServiceEntityRepository
         return $advert;
     }
 
+    // Advertisement's views counter
     public function updateViews($advert)
     {
         $newViews = $advert->getViews() +1; 
@@ -50,13 +53,14 @@ class AdvertRepository extends ServiceEntityRepository
         $this->manager->flush();
 
     }
-
+    // Advertisement's remove function
     public function removeAdvert(Advert $advert)
     {
         $this->manager->remove($advert);
         $this->manager->flush();
     }
 
+    // Function to list TOP 10 advertisements in Command (php bin/console ads-status)
     public function topAds()
     {
         $adverts = $this->findBy(array(), array('views' => 'DESC'));

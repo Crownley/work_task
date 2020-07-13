@@ -8,15 +8,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Service\Entity\UserService;
+use App\Validator\EntityValidator;
 
 class UserController extends AbstractController
 {
+
+    
     /**
     * @Route("/register", name="api_register", methods={"POST"})
     */
-    public function register(EntityManagerInterface $om, UserPasswordEncoderInterface $passwordEncoder, Request $request)
+    public function register(EntityManagerInterface $om, UserPasswordEncoderInterface $passwordEncoder, Request $request, EntityValidator $validator)
     {
         $user = new User();
         $email                  = $request->request->get("email");
@@ -36,24 +39,22 @@ class UserController extends AbstractController
             $encodedPassword = $passwordEncoder->encodePassword($user, $password);
             $user->setEmail($email);
             $user->setPassword($encodedPassword);
-            try
+            $isValid = $validator->validate($user);
+            if($isValid)
             {
+                // Save entity
                 $om->persist($user);
                 $om->flush();
                 return $this->json([
                     'user' => $user
                 ]);
             }
-            catch(UniqueConstraintViolationException $e)
+            else
             {
-                $errors[] = "The email provided already has an account!";
-            }
-            catch(\Exception $e)
-            {
-                $errors[] = "Unable to save new user at this time.";
+                $errors = $validator->getErrors();
             }
         }
-        
+                
         return $this->json([
             'errors' => $errors
         ], 400);

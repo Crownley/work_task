@@ -22,7 +22,6 @@ class AdsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $ads = json_encode($this->advertRepository->topAds());
         $adsArray = ($this->advertRepository->topAds());
 
         
