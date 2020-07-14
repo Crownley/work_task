@@ -10,16 +10,16 @@ use App\Entity\User;
 class UserService
 {
     private $validator;
-    private $om;
+    private $manager;
     private $passwordEncoder;
     private $errors = [];
     private $user;
 
 
-    public function __construct(EntityValidator $validator, EntityManagerInterface $om, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityValidator $validator, EntityManagerInterface $manager, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->validator       = $validator;
-        $this->om              = $om;
+        $this->manager             = $manager;
         $this->passwordEncoder = $passwordEncoder;
     }
 
@@ -51,8 +51,8 @@ class UserService
             if($isValid)
             {
                 // Save entity
-                $this->om->persist($user);
-                $this->om->flush();
+                $this->manager->persist($user);
+                $this->manager->flush();
 
                 $this->user = $user;
                 return true;

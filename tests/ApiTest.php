@@ -29,7 +29,7 @@ class ApiTest extends TestCase
     public function testOneAdvert()
     {
         $client = new Client();
-        $response = $client->request('GET', 'localhost:8000/adverts/177');
+        $response = $client->request('GET', 'localhost:8000/adverts/10');
 
         $this->assertSame($response->getStatusCode(), 200);
     }

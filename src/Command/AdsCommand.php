@@ -11,18 +11,20 @@ use App\Service\Command\CommandService;
 class AdsCommand extends Command
 {
     protected static $defaultName = 'ads-status';
-    private $advertRepository;
+    private $commandService;
     
-    public function __construct(CommandService $advertRepository)
+    public function __construct(CommandService $commandService)
     {
-        $this->advertRepository = $advertRepository;
+        $this->commandService = $commandService;
         parent::__construct();
     }
+
+    // Ads status command function
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $adsArray = ($this->advertRepository->topAds());
+        $adsArray = ($this->commandService->topAds());
 
         
         $io->title('TOP adverts ');

@@ -16,6 +16,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
             KernelEvents::EXCEPTION => 'onKernelException',
         ];
     }
+
+    // Create simple subscriber to listen for exceptions and give at least a message and static error code while in production
     public function onKernelException(ExceptionEvent $event): void
     {
 
