@@ -72,6 +72,8 @@ class Advert
 
         return $this;
     }
+
+    // function to convert our object to array in order to display it for our JsonResponse
     public function toArray()
     {
         return [

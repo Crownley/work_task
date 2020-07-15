@@ -15,6 +15,8 @@ class UserFixtures extends Fixture
     {
         $this->passwordEncoder = $passwordEncoder;
     }
+
+    // Function for create Users's fixtures
     public function load(ObjectManager $manager)
     {
         foreach ($this->getUserData() as [$email, $password])
@@ -27,7 +29,7 @@ class UserFixtures extends Fixture
         }
         $manager->flush();
     }
-
+    // Data to import for the fixtures
     private function getUserData(): array
     {
         return [

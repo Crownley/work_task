@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class AdvertController extends AbstractController
 {
-    private $advertisementRepository;
+    private $advertRepository;
     
     public function __construct(AdvertRepository $advertRepository)
     {

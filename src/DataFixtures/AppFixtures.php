@@ -10,6 +10,7 @@ use Faker\Factory;
 
 class AppFixtures extends Fixture
 {
+    // Function for create Advertisement's fixtures
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
